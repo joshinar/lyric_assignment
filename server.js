@@ -47,7 +47,7 @@ app.get('/history', async (req, res) => {
           $dateToString: { format: '%Y-%m-%d', date: '$timestamp' },
         },
         count: { $sum: 1 },
-        messages: { $push: "$$ROOT" },
+        messages: { $push: '$$ROOT' },
       },
     },
   ]);
@@ -73,7 +73,7 @@ app.put('/data/:id', async (req, res) => {
 app.post('/upload', async (req, res) => {
   const { file } = req.body;
   const jsonArray = await csv().fromString(file);
-  console.log(jsonArray);
+  await LogModel.deleteMany({});
   await Data.deleteMany({});
   await Data.insertMany(jsonArray);
   res.send({ message: 'File uploaded successfully' });

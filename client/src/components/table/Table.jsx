@@ -11,17 +11,17 @@ const Table = ({setShow,setHistory, history, show}) => {
     const readerRef = useRef()
     const [data, setData] = useState([]);
     const fetchData = async () => {
-        const res = await axios.get('http://localhost:5000/data');
+        const res = await axios.get('https://lyric-backend.onrender.com/data');
         setData(res.data);
       };
     
       const fetchHistory=async()=>{
-        const res = await axios.get('http://localhost:5000/history');
+        const res = await axios.get('https://lyric-backend.onrender.com/history');
         setHistory(res.data);
         setShow(true)
       }
     const handleSave = async (id, field, value, row, col) => {
-        const res = await axios.put(`http://localhost:5000/data/${id}`, { field, value,row,col });
+        const res = await axios.put(`https://lyric-backend.onrender.com/data/${id}`, { field, value,row,col });
         const { oldValue, newValue } = res.data;
         setHistory([...history, { id, field, oldValue, newValue, dateModified: new Date() }]);
       };
@@ -29,7 +29,7 @@ const Table = ({setShow,setHistory, history, show}) => {
     const handleFileUpload = async (data) => {
         const arrayToCSV = (arr, delimiter = ',') =>arr.map(v => v.map(x => `"${x}"`).join(delimiter)).join('\n')
         const file = arrayToCSV(data,',')
-        await axios.post('http://localhost:5000/upload', { file});
+        await axios.post('https://lyric-backend.onrender.com/upload', { file});
         fetchData();
       };
     
